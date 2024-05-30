@@ -794,37 +794,33 @@ bool IsCollision(const Sphere& sphere, const Plane& plane)
 //衝突判定(線と平面)
 bool IsCollision(const Segment& segment, const Plane& plane)
 {
+	Vector3 diff = Subtract(segment.diff, segment.origin);
+	
+	
 	//まず垂直判定を行うために、法線と線の内積を求める
-	float dot = Dot(plane.nomal, segment.diff);
-
+	float dot = Dot(plane.nomal, diff);
+	
 	// 垂直=平行であるので、衝突しているはずがない
 	if (dot == 0.0f) {
 		return false;
 	}
 
-	float t = ((plane.distance) - Dot(segment.origin, plane.nomal)) / dot;
-	float t2 = ((plane.distance) - Dot(segment.diff, plane.nomal)) / dot;
+	float t = (plane.distance - Dot(segment.origin, plane.nomal)) / dot;
+	
+
+	//Vector3 v;
+	// tの値と線の種類によって衝突しているかを判断する
+	//v = Multiply(Add(segment.origin, { t,t,t }), segment.diff);
 
 	ImGui::Begin("t");
 	ImGui::DragFloat("t", &t);
-	ImGui::DragFloat("t2", &t2);
 	ImGui::End();
 
 	
-
-	Vector3 v;
-	// tの値と線の種類によって衝突しているかを判断する
-	v = Multiply(Add(segment.origin,{t,t,t}), segment.diff);
-
-	// tが線分の範囲外であれば衝突しない
-	if (t < 0.0f && plane.distance <0.0f) {
-		return false;
+	if (t >= 0.0f && t<=1.0f) {
+		return true;
 	}
-	if (t > 1.0f && plane.distance > 0.0f) {
-		return false;
-	}
-
-	return true;
+	return false;
 }
 //
 Vector3 Perpendicular(const Vector3& vector) {

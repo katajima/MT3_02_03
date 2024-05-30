@@ -20,17 +20,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//回転
 	Vector3 rotate{};
 	//カメラポジション
-	Vector3 cameraPosition{ 0.0f,15.9f,-61.49f };
-	Vector3 cameraRotate{ 0.26f,0.0f,0.0f };
+	Vector3 cameraPosition{ 0.0f,0.0f,-61.49f };
+	Vector3 cameraRotate{ 0.0f,0.0f,0.0f };
 
 	Plane plane;
 	plane.distance = 0.0f;
 	plane.nomal = { 0,5,0 };
 
-	Segment segment{
-		{0,0,0},
-		{5,5,0},
-	};
+	Segment segment{};
+	segment.origin = { 0,0,0 };
+	segment.diff = { 0,5,0 };
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
